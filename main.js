@@ -143,31 +143,23 @@ WORK ON
  * Update line meta information to include up-to-date increment level. Adds this to proceeding lines.
  * 
  * Behaviour must include
- * - Ability to increment current line
- * - subsequent lines must be incremented
+ * - Ability to increment current (single) line ✅
+ * - subsequent lines must be incremented ✅
+ * - Ability to increment selected lines ❌
  * 
- * Currently only current lines and EXISTING subsequent lines are incremented. This is not correct.
+ * TO DO:
+ * - Work out way to update lines from lowest index of selection to highest index of selection
  * 
- * correct
- * line 1 - 0
- * line 2 - |1
- * line 3 - 0 : this line exists and should stay at 0
+ * NOTE:
+ * You will need conditional logic to decide if a selection has been made and act accordingly.
  * 
- * wrong
- * line 1 - 0
- * line 2 - |1
- * line 3 - 1 : this line exists and should not be incremented unless explicitly part of selection
  * 
  * @param {Array<Line>} lines 
  * @param {number} currentLineIndex 
  * @returns {void}
  */
 function addIndentMetaToLines(lines, currentLineIndex) {
-  lines.forEach((line, i) => {
-    if (i >= currentLineIndex) {
-      line.indentLevel += 1;
-    }
-  })
+  lines[currentLineIndex].indentLevel += 1;
 }
 
 function addNewLine(lines, currentLineIndex) {
@@ -217,16 +209,14 @@ editor.addEventListener("keyup", (event) => {
   // Update line text
   addTextMetaToLines(lines, currentLineText, currentLineIndex);
 
-  console.log(lines[currentLineIndex])
 
 
 
   if (event.ctrlKey && event.code === "BracketRight") {
     addIndentMetaToLines(lines, currentLineIndex);
-    console.log(lines.forEach(line => console.log(line)));
   }
 
-
+  console.log(lines.forEach(line => console.log(line)));
 
 
 });
