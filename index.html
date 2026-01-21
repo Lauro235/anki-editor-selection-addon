@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="./style.css" />
+		<title>Simple Selection API</title>
+	</head>
+	<body>
+		<div id="editor" class="editable" contenteditable="true"></div>
+		<div class="spacer"></div>
+		<div class="log">
+			<h2>Selection Log</h2>
+			<div id="text">Text: <span id="text-output"></span></div>
+			<div class="spacer-small"></div>
+			<div id="line">Line: <span id="line-output"></span></div>
+			<div class="spacer-small"></div>
+			<div id="selection">
+				Selection: <code language="txt" id="selection-output"></code>
+			</div>
+			<div class="spacer-small"></div>
+			<div id="range">
+				<!-- code script to render stringified object -->
+				Range: <code language="javascript" id="range-output"></code>
+			</div>
+		</div>
+		<script type="module" src="./main.js"></script>
+	</body>
+</html>

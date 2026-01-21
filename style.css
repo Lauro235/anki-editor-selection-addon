@@ -1,0 +1,20 @@
+/* style a contenteditable div with class editable */
+/* ensure .editable class is actually displayed */
+.editable {
+	border: 1px solid #ccc;
+	padding: 20px;
+
+	min-height: 100px;
+	max-width: 600px;
+	margin-inline: auto;
+	font-family: "Fira Code", monospace;
+	font-size: 14px;
+	background-color: #f9f9f9;
+}
+
+.spacer-small {
+	margin: 1rem;
+}
+.spacer {
+	margin: 4rem;
+}
