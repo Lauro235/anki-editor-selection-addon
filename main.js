@@ -108,10 +108,10 @@ function getCurrentLine(range) {
  * We know that when node.parentNode is equal to editor we can use editor.childNodes to find the index which contains the original startContainer 
  * 
  * @param {HTMLElement} editor 
- * @param {Range} range 
+ * @param {Node} node Comes from range.startContainer 
  * @returns {number} The index of the line number that the startContainer belongs to. 
  */
-function getCurrentLineIndex(editor, range) {
+function getCurrentLineIndex(editor, node) {
 
   // keep helper encapsulated for now
   function findCurrentEditorChild(editor, node) {
@@ -122,7 +122,6 @@ function getCurrentLineIndex(editor, range) {
     return node;
   }
 
-  const node = range.startContainer
   if (node === editor) {
     return 0;
   }
@@ -151,8 +150,24 @@ WORK ON
  * @param {number} currentLineIndex 
  * @returns {void}
  */
-function addIndentMetaToLines(lines, currentLineIndex) {
-  lines[currentLineIndex].indentLevel += 1;
+function addIndentMetaToLines(lines, currentLineIndex, selection, editor = undefined) {
+  if (selection.direction === "none") {
+    lines[currentLineIndex].indentLevel += 1;
+    return
+  }
+  // else check line / lines of selection
+  console.log(selection);
+
+  const [startIndex, endIndex] = [getCurrentLineIndex(editor, selection.anchorNode), getCurrentLineIndex(editor, selection.focusNode)].sort();
+  console.log("start index: ", startIndex);
+  console.log("end index: ", endIndex);
+
+
+  for (let i = startIndex; i <= endIndex; i++) {
+    const current = i;
+    lines[current].indentLevel += 1;
+  }
+
 }
 
 function addNewLine(lines, currentLineIndex) {
@@ -193,7 +208,7 @@ editor.addEventListener("keyup", (event) => {
   // will display whole line if multiple nodes in div, but fine for now.
   const currentLineText = getCurrentLine(range)
 
-  const currentLineIndex = getCurrentLineIndex(editor, range);
+  const currentLineIndex = getCurrentLineIndex(editor, range.startContainer);
 
   if (event.code === "Enter") {
     addNewLine(lines, currentLineIndex)
@@ -203,13 +218,11 @@ editor.addEventListener("keyup", (event) => {
   addTextMetaToLines(lines, currentLineText, currentLineIndex);
 
 
-
-
   if (event.ctrlKey && event.code === "BracketRight") {
-    addIndentMetaToLines(lines, currentLineIndex);
+
+    addIndentMetaToLines(lines, currentLineIndex, selection, editor);
+    console.log(lines);
+
   }
-
-  console.log(lines.forEach(line => console.log(line)));
-
 
 });

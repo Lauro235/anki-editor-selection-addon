@@ -145,6 +145,7 @@ Let's say we highlight the word 'there'. The selection object will show:
   extentOffset: 3,
   baseOffset: 8,
   anchorOffset: 8,
+  direction: "backwards",
   type: "Range",
 }
 ```
@@ -155,6 +156,20 @@ Let's try another example - "Hi there,\nmy name is Buddy." - If we copy "there,\
 
 Notice that focusNode and extentNode seem to point to the first line, but baseNode and anchor node both seem to point to the second line.
 
-**Note - according to SO only anchorNode and focusNode are relevant. baseNode and extentNode are deprecated**
+**Note - according to SO only anchorNode and focusNode are relevant. baseNode and extentNode are deprecated.**
 
 [Stack Overflow on anchorNode vs baseNode](https://stackoverflow.com/a/33586253/15592981)
+
+**Also worth noting is that whether the anchor is to the left of the focus node depends on the direction of the selection.**
+
+#### Selection direction: How it effects focus and anchor nodes/offsets.
+
+If a selection has the `direction: "backwards"` then the anchor node is to the right of the focus node.Likewise the anchorOffset is to the right of the focusOffset. However if the selection has `direction: "forwards"` then the anchorNode and anchorOffset are to the left of their focus counterparts.
+
+#### Plan to add indent to selection
+
+1. In the function `function addIndentMetaToLines(lines, currentLineIndex)`, pass in the selection object.
+2. Check that focusNode and anchorNode are the same, also check that focusOffset and anchorOffset are the same. If there is any difference between values. A selection has been made. Or you could just check for the direction value. If there is a direction value of "none", then no selection has been made, else there is a selection.
+3. If no selection has been made then add indent to single line.
+4. If a selection has been made then pass the nodes into an offset (different nodes can belong to the same line). Check which lineindex the two nodes belong to and use those index values to update the indentLevel via forEach.
+
