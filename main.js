@@ -147,13 +147,6 @@ WORK ON
  * - subsequent lines must be incremented ✅
  * - Ability to increment selected lines ❌
  * 
- * TO DO:
- * - Work out way to update lines from lowest index of selection to highest index of selection
- * 
- * NOTE:
- * You will need conditional logic to decide if a selection has been made and act accordingly.
- * 
- * 
  * @param {Array<Line>} lines 
  * @param {number} currentLineIndex 
  * @returns {void}
